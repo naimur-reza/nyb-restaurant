@@ -9,7 +9,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="h-20 flex items-center  bg-black text-gray-200 font-babas-neue">
+    <nav className="h-24 flex items-center  bg-black text-gray-200 font-babas-neue">
       <div className="flex  w-full justify-between px-8">
         <Link className="text-3xl " to={"/"}>
           NYB Restaurant

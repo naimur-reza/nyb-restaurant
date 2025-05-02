@@ -29,13 +29,14 @@ const Menu = () => {
       </div>
 
       {/* Food Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-[#111] min-h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6   ">
         {filterdItems?.items?.map((item, index) => (
           <div
             key={index}
-            className="border border-[#333] rounded-2xl shadow-lg overflow-hidden bg-[#1a1a1a] text-white"
+            className="border font-open-sans border-[#333] rounded-2xl shadow-lg overflow-hidden bg-[#1a1a1a] text-white"
           >
             <img
+              loading="lazy"
               src={item.image}
               alt={item.title}
               className="w-full h-48 object-cover"

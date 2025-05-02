@@ -4,11 +4,13 @@ import Navbar from "../components/shared/Navbar";
 
 const MainLayout = () => {
   return (
-    <>
+    <div className="bg-black font-babas-neue">
       <Navbar />
-      <Outlet />
+     <div className=" ">
+       <Outlet />
+     </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

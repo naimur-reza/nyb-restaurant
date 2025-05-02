@@ -14,12 +14,12 @@ const Menu = () => {
   return (
     <div className="">
       {/* Tabs buttons */}
-      <div className="flex items-center border w-fit mt-5 ml-5">
+      <div className="flex items-center border w-fit  px-5 pt-10">
         {categories.map((item) => (
           <button
             key={item}
             onClick={() => setCategory(item)}
-            className={`px-5 text-2xl tracking-wide py-4 border-collapse cursor-pointer border transition-colors ${
+            className={`px-5 text-lg md:text-2xl tracking-wide py-4 border-collapse cursor-pointer border transition-colors ${
               category === item ? "bg-black text-white" : "bg-white"
             }`}
           >

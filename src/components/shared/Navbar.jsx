@@ -29,7 +29,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <nav className="   relative w-full  md:hidden items-center bg-black text-gray-200 font-babas-neue">
+      <nav className="relative w-full  md:hidden items-center bg-black text-gray-200 font-babas-neue">
         <div className="flex  w-full justify-between px-8 flex-col absolute top-0 bg-black py-4">
           <div className="flex justify-between items-center">
             <Link   to={"/"}>
@@ -56,9 +56,9 @@ const Navbar = () => {
             )}
           </div>
           {showNav && (
-            <ul className="flex top-14 bg-black/95  fixed w-full font-semibold text-xl flex-col  space-y-3 uppercase justify-between left-0 px-8 py-3">
+            <ul className="flex top-20  bg-black fixed w-full font-semibold text-xl flex-col  space-y-3 uppercase justify-between left-0 px-8 py-3">
               {navItems.map((item) => (
-                <li key={item.label} className="hover:underline">
+                <li onClick={()=>setShowNav(!showNav)} key={item.label} className="hover:underline">
                   <Link to={item.path}>{item.label}</Link>
                 </li>
               ))}

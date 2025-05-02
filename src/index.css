@@ -11,3 +11,9 @@
   --font-babas-neue: "Bebas Neue", sans-serif;
   --font-open-sans: "Open Sans", sans-serif;
 }
+
+.image-container {
+  display: grid;
+  grid-template-rows: masonry;
+  grid-template-columns: repeat(2, 1fr);
+}

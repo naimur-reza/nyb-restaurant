@@ -2,9 +2,9 @@ import { assets } from "../assets";
 
 const Hero = () => {
   return (
-    <section className="grid grid-cols-2">
+    <section className="image-container">
       {assets.heroImages.map((img, idx) => (
-        <img className="h-fit" key={idx} src={img} />
+        <img  className="w-full h-full object-cover"  key={idx} src={img} />
       ))}
     </section>
   );

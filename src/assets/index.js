@@ -21,6 +21,7 @@ export const assets = {
         image7,
         image8,
         image9,
+        image9,
     ],
     logo
 }

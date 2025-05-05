@@ -6,14 +6,14 @@ const FoodCard = ({item, index}) => {
             key={index}
             className="border font-open-sans border-[#333] rounded-2xl shadow-lg overflow-hidden bg-[#1a1a1a] text-white"
           >
-            <Link to={`/menu/${item.id}`} className="relative overflow-hidden">
+            <gloLink to={`/menu/${item.id}`} className="relative overflow-hidden">
                 <img
               loading="lazy"
               src={item.image}
               alt={item.title}
               className="w-full h-64 object-cover cursor-pointer hover:scale-105 transition-all duration-300"
             />
-            </Link>
+            </gloLink>
             <div className="p-4">
 
 <Link to={`/menu/${item.id}`} className="cursor-pointer hover:underline">
@@ -21,7 +21,7 @@ const FoodCard = ({item, index}) => {
 </Link>
               <p className="text-gray-400 text-sm mt-2">{item.description}</p>
               <div className="mt-3 text-lg font-bold text-white">
-                ${item.price}
+          git config --global user.name "Mona Lisa"git config --global user.name "Mona Lisa"      ${item.price}
               </div>
 
               {item.vegetarian !== undefined && (

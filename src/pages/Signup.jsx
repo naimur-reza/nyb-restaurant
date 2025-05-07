@@ -1,36 +1,42 @@
-import { useLoginUserMutation } from "../redux/api/authApi/authApi";
+import { useRegisterUserMutation } from "../redux/api/authApi/authApi";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link } from "react-router-dom";
 
-const loginSchema = z.object({
+const signupSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
     .max(50, "Password must not exceed 50 characters"),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
-const Login = () => {
-  const [login, { isLoading }] = useLoginUserMutation();
+const Signup = () => {
+  const [register, { isLoading }] = useRegisterUserMutation();
   
   const {
-    register,
+    register: registerField,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(signupSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      const result = await login(data);
+      const result = await register(data);
       if (result.error) {
         toast.error(result.error.data.message);
       }
@@ -38,7 +44,7 @@ const Login = () => {
         toast.success(result.data.message);
       }
     } catch {
-      toast.error("An error occurred during login");
+      toast.error("An error occurred during registration");
     }
   };
 
@@ -51,16 +57,32 @@ const Login = () => {
   }
 
   return (
-    <section className="flex justify-center items-center min-h-[calc(100vh-360px)] bg-gradient-to-br from-black to-gray-900">
+    <section className="flex justify-center items-center min-h-[calc(100vh-360px)] bg-gradient-to-br from-black to-gray-900 py-16">
       <div className="w-full max-w-md p-8 bg-black/40 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white tracking-wider">Welcome Back</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-white tracking-wider">Create Account</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-200 tracking-wide">
+              Name
+            </label>
+            <input
+              {...registerField("name")}
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              className="w-full p-3 bg-black/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+            />
+            {errors.name && (
+              <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
+            )}
+          </div>
+
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-gray-200 tracking-wide">
               Email
             </label>
             <input
-              {...register("email")}
+              {...registerField("email")}
               type="email"
               id="email"
               placeholder="Enter your email"
@@ -76,7 +98,7 @@ const Login = () => {
               Password
             </label>
             <input
-              {...register("password")}
+              {...registerField("password")}
               type="password"
               id="password"
               placeholder="Enter your password"
@@ -87,27 +109,32 @@ const Login = () => {
             )}
           </div>
 
+          <div className="space-y-2">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-200 tracking-wide">
+              Confirm Password
+            </label>
+            <input
+              {...registerField("confirmPassword")}
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm your password"
+              className="w-full p-3 bg-black/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-400 text-sm mt-1">{errors.confirmPassword.message}</p>
+            )}
+          </div>
+
           <button
             type="submit"
             className="w-full p-3 bg-white text-black font-medium rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 shadow-lg hover:shadow-white/20"
           >
-            Sign In
+            Sign Up
           </button>
-
-          <div className="text-center mt-4">
-            <p className="text-gray-300">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-white hover:text-gray-200 underline underline-offset-4 transition-colors duration-200">
-                Sign up
-              </Link>
-            </p>
-          </div>
         </form>
       </div>
     </section>
   );
 };
 
-export default Login;
-
- 
+export default Signup; 

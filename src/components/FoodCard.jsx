@@ -21,7 +21,7 @@ const FoodCard = ({item, index}) => {
 </Link>
               <p className="text-gray-400 text-sm mt-2">{item.description}</p>
               <div className="mt-3 text-lg font-bold text-white">
-          git config --global user.name "Mona Lisa"git config --global user.name "Mona Lisa"      ${item.price}
+              ${item.price}
               </div>
 
               {item.vegetarian !== undefined && (

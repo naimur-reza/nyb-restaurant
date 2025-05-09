@@ -42,28 +42,25 @@ const DashboardLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 font-open-sans">
+    <div className="min-h-screen bg-background font-open-sans">
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 z-40 h-screen transition-transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64`}
+        } bg-surface border-r border-border w-64`}
       >
         <div className="flex flex-col h-full">
           {/* Logo and Toggle */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-            <Link
-              to="/"
-              className="text-2xl font-bold text-gray-900 dark:text-white"
-            >
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <Link to="/" className="text-2xl font-bold text-primary">
               NYB
             </Link>
             <button
               onClick={() => setIsSidebarOpen(false)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-2 rounded-lg hover:bg-hover"
             >
               <svg
-                className="w-6 h-6 text-gray-600 dark:text-gray-300"
+                className="w-6 h-6 text-secondary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -79,20 +76,18 @@ const DashboardLayout = () => {
           </div>
 
           {/* User Profile */}
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="p-4 border-b border-border">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center">
-                <span className="text-lg font-bold text-indigo-600 dark:text-indigo-300">
+              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                <span className="text-lg font-bold text-primary">
                   {user?.email?.charAt(0).toUpperCase() || "U"}
                 </span>
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                <p className="text-sm font-medium text-primary">
                   {user?.email?.split("@")[0] || "User"}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {user?.role || "User"}
-                </p>
+                <p className="text-xs text-secondary">{user?.role || "User"}</p>
               </div>
             </div>
           </div>
@@ -103,7 +98,7 @@ const DashboardLayout = () => {
               <Link
                 key={item.label}
                 to={item.path}
-                className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center px-4 py-2 text-secondary rounded-lg hover:bg-hover"
               >
                 <svg
                   className="w-5 h-5 mr-3"
@@ -124,10 +119,10 @@ const DashboardLayout = () => {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="p-4 border-t border-border">
             <button
               onClick={handleLogout}
-              className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="flex items-center w-full px-4 py-2 text-secondary rounded-lg hover:bg-hover"
             >
               <svg
                 className="w-5 h-5 mr-3"
@@ -155,14 +150,14 @@ const DashboardLayout = () => {
         } transition-all duration-300`}
       >
         {/* Top Bar */}
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <header className="bg-surface border-b border-border">
           <div className="flex items-center justify-between p-4">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-2 rounded-lg hover:bg-hover"
             >
               <svg
-                className="w-6 h-6 text-gray-600 dark:text-gray-300"
+                className="w-6 h-6 text-secondary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -179,7 +174,7 @@ const DashboardLayout = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                className="p-2 rounded-lg bg-hover hover:bg-primary"
               >
                 {isDarkMode ? (
                   <svg

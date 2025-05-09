@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
+import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
-import Info from "../pages/Info";
-import Menu from "../pages/Menu";
 import Login from "../pages/Login";
-import Signup from "../pages/Signup";
+import Orders from "../pages/Orders";
+import Settings from "../pages/Settings";
+import SignUp from "../pages/SignUp";
+import Users from "../pages/Users";
 
 const router = createBrowserRouter([
   {
@@ -18,28 +19,34 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/menu",
-        element: <Menu />,
-      },
-      {
-        path: "/info",
-        element: <Info />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
-      },
-      {
         path: "/login",
         element: <Login />,
       },
       {
         path: "/signup",
-        element: <Signup />,
+        element: <SignUp />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "",
+        element: <Dashboard />,
+      },
+      {
+        path: "users",
+        element: <Users />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },

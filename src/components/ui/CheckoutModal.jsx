@@ -1,11 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment    } from "react";
-// import CheckoutForm from "../Forms/CheckoutForm";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+ 
+ 
+import StripeCheckoutForm from "./CheckoutForm";
 
-const CheckoutModal = ({ closeModal, isOpen, classInfo, refetch }) => {
-  const stripePromise = loadStripe(`${"pk_test_51RNB7fP5ZJfcVMb3iVEtb5nPxVcspwwM3SbPoYcaoKDsXcaU8uBDV8UXTGjmqz1khNxv6EfERU363AZv9gKKRVdP00PTRcUxzI"}`);
+const CheckoutModal = ({ closeModal, isOpen }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10 " onClose={closeModal}>
@@ -21,7 +20,7 @@ const CheckoutModal = ({ closeModal, isOpen, classInfo, refetch }) => {
         </Transition.Child>
 
         <div className="fixed  inset-0 overflow-y-auto">
-          <div className="flex  min-h-full items-center justify-center p-4 text-center">
+          <div className="flex max-w-4xl mx-auto  min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -30,14 +29,11 @@ const CheckoutModal = ({ closeModal, isOpen, classInfo, refetch }) => {
               leave="ease-in duration-200"
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95">
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Elements stripe={stripePromise}>
-                  {/* <CheckoutForm
-                    refetch={refetch}
-                    closeModal={closeModal}
-                    classInfo={classInfo}
-                  /> */}
-                </Elements>
+              <Dialog.Panel className="w-full container transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+            
+         <StripeCheckoutForm/>
+                  
+              
               </Dialog.Panel>
             </Transition.Child>
           </div>

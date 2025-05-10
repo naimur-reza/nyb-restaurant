@@ -1,5 +1,25 @@
+import { useState } from "react";
+import CheckoutModal from "./ui/CheckoutModal";
+
 const MenuDetails = ({ item }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+ 
+
+
+  const handleOrderNow = async () => {
+
+ 
+   openModal();
+ 
+
+  
+  };
+
   return (
+<>
+
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-[#1a1a1a] rounded-2xl shadow-lg overflow-hidden">
         <div className="relative">
@@ -38,6 +58,7 @@ const MenuDetails = ({ item }) => {
           </div>
 
           <button
+          onClick={handleOrderNow}
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
           >
             <span className="text-xl">Order Now</span>
@@ -48,6 +69,13 @@ const MenuDetails = ({ item }) => {
         </div>
       </div>
     </div>
+    <CheckoutModal
+      isOpen={isOpen}
+      closeModal={closeModal}
+      classInfo={item}
+     
+    />
+    </>
   );
 };
 

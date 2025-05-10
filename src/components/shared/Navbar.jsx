@@ -46,7 +46,7 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="h-24 hidden md:flex items-center bg-black text-gray-200 font-babas-neue sticky top-0 z-50 shadow-lg">
+      <nav className="md:h-24 hidden md:flex items-center bg-black text-gray-200 font-babas-neue sticky top-0 z-50 shadow-lg">
         <div className="flex w-full justify-between px-8 items-center max-w-7xl mx-auto">
           <Link to={"/"} className="transition-transform hover:scale-105">
             <img className="w-20" src={assets.logo || "/placeholder.svg"} alt="logo" />

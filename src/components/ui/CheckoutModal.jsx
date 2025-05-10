@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment    } from "react";
+import { Fragment } from "react";
  
  
 import StripeCheckoutForm from "./CheckoutForm";
@@ -7,7 +7,7 @@ import StripeCheckoutForm from "./CheckoutForm";
 const CheckoutModal = ({ closeModal, isOpen }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10 " onClose={closeModal}>
+      <Dialog as="div" className="relative z-60 " onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -16,7 +16,7 @@ const CheckoutModal = ({ closeModal, isOpen }) => {
           leave="ease-in duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0">
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-25  " />
         </Transition.Child>
 
         <div className="fixed  inset-0 overflow-y-auto">

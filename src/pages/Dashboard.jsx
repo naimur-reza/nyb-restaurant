@@ -127,15 +127,15 @@ const StatusBadge = ({ status }) => {
   const getStatusStyle = (status) => {
     switch (status) {
       case "completed":
-        return "bg-success/10 text-success";
+        return "bg-green-500/70 text-white";
       case "pending":
-        return "bg-warning/10 text-warning";
+        return "bg-yellow-500/70 text-white";
       case "processing":
-        return "bg-info/10 text-info";
+        return "bg-blue-500/70 text-white";
       case "active":
-        return "bg-success/10 text-success";
+        return "bg-green-500/70 text-white";
       case "inactive":
-        return "bg-error/10 text-error";
+        return "bg-red-500/70 text-white";
       default:
         return "bg-secondary/10 text-secondary";
     }

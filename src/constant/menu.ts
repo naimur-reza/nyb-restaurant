@@ -3,6 +3,7 @@ export const menu = [
     category: "Food",
     items: [
       {
+        id: 1,
         title: "Classic Cheeseburger",
         image:
           "https://images.unsplash.com/photo-1607013251379-e6eecfffe234?w=1024&h=800",
@@ -12,6 +13,7 @@ export const menu = [
         vegetarian: false,
       },
       {
+        id: 2,
         title: "Margherita Pizza",
         image:
           "https://images.unsplash.com/photo-1607013251379-e6eecfffe234?w=1024&h=800",
@@ -21,6 +23,7 @@ export const menu = [
         vegetarian: true,
       },
       {
+        id: 3,
         title: "Chicken Caesar Salad",
         image:
           "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=1024&h=800",
@@ -35,6 +38,7 @@ export const menu = [
     category: "Drinks",
     items: [
       {
+        id: 4,
         title: "Iced Latte",
         image:
           "https://images.unsplash.com/photo-1515942655488-3db7d2d5e5bd?w=1024&h=800",
@@ -43,6 +47,7 @@ export const menu = [
         caffeine: true,
       },
       {
+        id: 5,
         title: "Mango Smoothie",
         image:
           "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1024&h=800",
@@ -51,6 +56,7 @@ export const menu = [
         caffeine: false,
       },
       {
+        id: 6,
         title: "Sparkling Water",
         image:
           "https://images.unsplash.com/photo-1610479545405-37b5d6e2c610?w=1024&h=800",
@@ -64,6 +70,7 @@ export const menu = [
     category: "Desserts",
     items: [
       {
+        id: 7,
         title: "Chocolate Lava Cake",
         image:
           "https://images.unsplash.com/photo-1616486028841-53f5bf2a617c?w=1024&h=800",
@@ -73,6 +80,7 @@ export const menu = [
         vegetarian: true,
       },
       {
+        id: 8,
         title: "New York Cheesecake",
         image:
           "https://images.unsplash.com/photo-1599003037886-f7b0b165b989?w=1024&h=800",
@@ -81,6 +89,7 @@ export const menu = [
         vegetarian: true,
       },
       {
+        id: 9,
         title: "Fruit Tart",
         image:
           "https://images.unsplash.com/photo-1587308928462-1366ec1f379e?w=1024&h=800",

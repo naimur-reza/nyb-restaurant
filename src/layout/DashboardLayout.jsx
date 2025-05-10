@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTheme } from "../context/ThemeContext";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
@@ -10,6 +10,7 @@ const DashboardLayout = () => {
   const user = useAppSelector(useCurrentUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isDarkMode, toggleTheme } = useTheme();
 
   const handleLogout = () => {
@@ -98,10 +99,16 @@ const DashboardLayout = () => {
               <Link
                 key={item.label}
                 to={item.path}
-                className="flex items-center px-4 py-2 text-secondary rounded-lg hover:bg-hover"
+                className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                  location.pathname === item.path
+                    ? "bg-primary text-white"
+                    : "text-secondary hover:bg-hover"
+                }`}
               >
                 <svg
-                  className="w-5 h-5 mr-3"
+                  className={`w-5 h-5 mr-3 ${
+                    location.pathname === item.path ? "text-white" : "text-secondary"
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

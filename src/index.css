@@ -35,6 +35,8 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  --color-surface: hsl(var(--surface));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -93,7 +95,7 @@
     --primary: 0 0% 78%;
     --primary-foreground: 222 47% 11%;
     --secondary: 210 20% 98%;
-    --surface: 240 22% 15%;
+    --surface: 240 22% 11%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 18%;
     --muted-foreground: 215 20% 65%;

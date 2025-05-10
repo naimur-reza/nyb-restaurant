@@ -34,7 +34,7 @@ const Orders = () => {
   const user = useAppSelector(useCurrentUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [dateRange, setDateRange] = useState({ start: "", end: "" });
+ 
 
   if (!user) {
     return null;
@@ -46,10 +46,7 @@ const Orders = () => {
       order.id.toString().includes(searchTerm);
     const matchesStatus =
       selectedStatus === "all" || order.status === selectedStatus;
-    const matchesDateRange =
-      (!dateRange.start || order.date >= dateRange.start) &&
-      (!dateRange.end || order.date <= dateRange.end);
-    return matchesSearch && matchesStatus && matchesDateRange;
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -85,26 +82,6 @@ const Orders = () => {
               <option value="pending">Pending</option>
               <option value="processing">Processing</option>
             </select>
-          </div>
-          <div>
-            <input
-              type="date"
-              value={dateRange.start}
-              onChange={(e) =>
-                setDateRange({ ...dateRange, start: e.target.value })
-              }
-              className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background text-primary font-open-sans"
-            />
-          </div>
-          <div>
-            <input
-              type="date"
-              value={dateRange.end}
-              onChange={(e) =>
-                setDateRange({ ...dateRange, end: e.target.value })
-              }
-              className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background text-primary font-open-sans"
-            />
           </div>
         </div>
 

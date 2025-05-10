@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { useRegisterUserMutation } from "../redux/api/authApi/authApi";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -19,7 +20,7 @@ const signupSchema = z.object({
 
 const Signup = () => {
   const [register, { isLoading }] = useRegisterUserMutation();
-  
+  const navigate = useNavigate()
   const {
     register: registerField,
     handleSubmit,
@@ -43,7 +44,8 @@ const Signup = () => {
          
       }
       if (result.data) {
-        toast.success(result.data.message);
+        toast.success("User registration successfull!");
+        navigate("/login")
       }
     } catch {
       toast.error("An error occurred during registration");

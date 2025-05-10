@@ -117,7 +117,7 @@ const MyProfile = () => {
               <div className="space-y-4">
                 <div>
                   <h2 className="text-sm text-gray-400 uppercase">Member Since</h2>
-                  <p className="text-xl">{user.createdAt || "Not available"}</p>
+                  <p className="text-xl">{new Date(user.createdAt).toLocaleDateString() || "Not available"}</p>
                 </div>
                 <div>
                   <h2 className="text-sm text-gray-400 uppercase">Total Orders</h2>

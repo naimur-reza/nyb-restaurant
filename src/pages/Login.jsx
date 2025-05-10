@@ -1,9 +1,10 @@
-import { useLoginUserMutation } from "../redux/api/authApi/authApi";
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { z } from "zod";
+import { useAppDispatch } from "../hooks/hooks";
+import { useLoginUserMutation } from "../redux/api/authApi/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
 
 const loginSchema = z.object({
@@ -16,8 +17,9 @@ const loginSchema = z.object({
 
 const Login = () => {
   const [login, { isLoading }] = useLoginUserMutation();
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -38,11 +40,14 @@ const Login = () => {
         toast.error(result.error.data.message);
       }
       if (result.data) {
-        toast.success("Login successfully!");
-        // navigate("/")
-        // setUser({
-        //   user: result.data.data
-        // })
+        toast.success("Login successful!");
+        navigate("/");
+        dispatch(
+          setUser({
+            user: result.data.user,
+            token: result.data.token,
+          })
+        );
       }
     } catch {
       toast.error("An error occurred during login");
@@ -51,19 +56,24 @@ const Login = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-[calc(100vh-360px)]">
+      <div className="flex justify-center items-center min-h-[calc(100vh-360px)] ">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
       </div>
     );
   }
 
   return (
-    <section className="flex justify-center items-center min-h-[calc(100vh-360px)] bg-gradient-to-br from-black to-gray-900">
+    <section className="flex justify-center items-center min-h-[calc(100vh-360px)] bg-gradient-to-br from-black to-gray-900 py-16">
       <div className="w-full max-w-md p-8 bg-black/40 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white tracking-wider">Welcome Back</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-white tracking-wider">
+          Welcome Back
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-200 tracking-wide"
+            >
               Email
             </label>
             <input
@@ -74,12 +84,17 @@ const Login = () => {
               className="w-full p-3 bg-black/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
             />
             {errors.email && (
-              <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-400 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
-          
+
           <div className="space-y-2">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-200 tracking-wide"
+            >
               Password
             </label>
             <input
@@ -90,7 +105,9 @@ const Login = () => {
               className="w-full p-3 bg-black/40 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
             />
             {errors.password && (
-              <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-400 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
@@ -104,7 +121,10 @@ const Login = () => {
           <div className="text-center mt-4">
             <p className="text-gray-300">
               Don't have an account?{" "}
-              <Link to="/signup" className="text-white hover:text-gray-200 underline underline-offset-4 transition-colors duration-200">
+              <Link
+                to="/signup"
+                className="text-white hover:text-gray-200 underline underline-offset-4 transition-colors duration-200"
+              >
                 Sign up
               </Link>
             </p>
@@ -116,5 +136,3 @@ const Login = () => {
 };
 
 export default Login;
-
- 

@@ -1,20 +1,24 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
-import "./index.css";
-import router from "./routes/routes.jsx";
 import { Provider } from "react-redux";
-import { store } from "./redux/store.ts";
+import { RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import App from "./App.jsx";
+import { ThemeProvider } from "./context/ThemeContext";
+import "./index.css";
+import { store } from "./redux/store.ts";
+import router from "./routes/routes.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}>
-        <App />
-        <ToastContainer />
-      </RouterProvider>
+      <ThemeProvider>
+        <RouterProvider router={router}>
+          <App />
+          <ToastContainer />
+        </RouterProvider>
+      </ThemeProvider>
     </Provider>
   </StrictMode>
 );

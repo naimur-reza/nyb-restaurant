@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Footer from "../components/shared/Footer";
 import Navbar from "../components/shared/Navbar";
-import { ToastContainer } from "react-toastify";
+v
 
 const MainLayout = () => {
   return (
@@ -9,7 +10,7 @@ const MainLayout = () => {
       <Navbar />
      <div className="pt-[55px] md:pt-0 min-h-[calc(100vh-360px)]">
        <Outlet />
-        <ToastContainer theme="dark"  position="bottom-right" />
+       <ToastContainer/>
      </div>
       <Footer />
    

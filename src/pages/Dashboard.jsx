@@ -87,9 +87,7 @@ const orderStatusData = [
 ];
 
 const COLORS = [
-  "var(--color-success)",
-  "var(--color-warning)",
-  "var(--color-info)",
+  "#"
 ];
 
 // Reusable components

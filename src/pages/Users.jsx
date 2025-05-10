@@ -1,43 +1,30 @@
 import { useState } from "react";
 import { useAppSelector } from "../hooks/hooks";
 import { useCurrentUser } from "../redux/features/auth/authSlice";
-
-// Mock data for demonstration
-const mockUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@example.com",
-    role: "user",
-    status: "active",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane@example.com",
-    role: "admin",
-    status: "active",
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    email: "bob@example.com",
-    role: "user",
-    status: "inactive",
-  },
-];
+import { useGetAllUsersQuery } from "../redux/api/userApi/userApi";
+ 
+ 
 
 const Users = () => {
   const user = useAppSelector(useCurrentUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const { data, isLoading, isError } = useGetAllUsersQuery();
 
   if (!user) {
     return null;
   }
 
-  const filteredUsers = mockUsers.filter((user) => {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  const filteredUsers = data?.users.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
@@ -47,6 +34,8 @@ const Users = () => {
     return matchesSearch && matchesRole && matchesStatus;
   });
 
+ 
+  console.log(filteredUsers);
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -130,8 +119,8 @@ const Users = () => {
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         user.status === "active"
-                          ? "bg-success/10 text-success"
-                          : "bg-error/10 text-error"
+                          ? "bg-green-500/70 text-white"
+                          : "bg-red-500/70 text-white"
                       }`}
                     >
                       {user.status}

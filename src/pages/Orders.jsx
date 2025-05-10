@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { useAppSelector } from "../hooks/hooks";
 import { useCurrentUser } from "../redux/features/auth/authSlice";
-import { toast } from "react-toastify";
 
 // Mock data for demonstration
 const mockOrders = [
@@ -279,7 +279,7 @@ const Orders = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">
                     <button 
                       onClick={() => handleViewOrder(order)}
-                      className="    mr-3 bg-primary  text-black px-4 py-2 rounded-lg hover:bg-primary/90 font-open-sans"
+                      className="    mr-3 bg-primary  text-accent px-4 py-2 rounded-lg hover:bg-primary/90 font-open-sans"
                     >
                       View
                     </button>

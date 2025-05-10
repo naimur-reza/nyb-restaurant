@@ -1,19 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
+import OrderDetails from "../components/shared/OrderDetails";
 import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
 import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
+import Info from "../pages/Info";
 import Login from "../pages/Login";
+import Menu from "../pages/Menu";
+import MenuItem from "../pages/MenuItem";
+import MyProfile from "../pages/MyProfile";
 import Orders from "../pages/Orders";
 import Settings from "../pages/Settings";
 import SignUp from "../pages/SignUp";
 import Users from "../pages/Users";
-import Info from "../pages/Info";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
-import Menu from "../pages/Menu";
-import MenuItem from "../pages/MenuItem";
-import OrderDetails from "../components/shared/OrderDetails";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <OrderDetails />,
+      },
+      {
+        path: "/profile",
+        element: <MyProfile />,
       },
     ],
   },

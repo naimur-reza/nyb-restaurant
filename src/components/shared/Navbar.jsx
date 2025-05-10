@@ -1,15 +1,23 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { assets } from "../../assets";
+ 
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { logout, useCurrentUser } from "../../redux/features/auth/authSlice";
+ 
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const user = useAppSelector(useCurrentUser);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setShowNav(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -26,7 +34,8 @@ const Navbar = () => {
 
   const authItems = user
     ? [
-        { label: "Dashboard", path: "/dashboard" },
+        ...(user.role === "admin" ? [{ label: "Dashboard", path: "/dashboard" }] : []),
+        { label: "My Profile", path: "/profile" },
         { label: "Logout", onClick: handleLogout },
       ]
     : [
@@ -36,85 +45,121 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="h-24 hidden md:flex items-center bg-black text-gray-200 font-babas-neue">
-        <div className="flex w-full justify-between px-8 items-center">
-          <Link to={"/"}>
-            <img className="w-18" src={assets.logo} alt="logo" />
+      {/* Desktop Navigation */}
+      <nav className="h-24 hidden md:flex items-center bg-black text-gray-200 font-babas-neue sticky top-0 z-50 shadow-lg">
+        <div className="flex w-full justify-between px-8 items-center max-w-7xl mx-auto">
+          <Link to={"/"} className="transition-transform hover:scale-105">
+            <img className="w-20" src={assets.logo || "/placeholder.svg"} alt="logo" />
           </Link>
-          <ul className="flex max-w-7xl font-semibold text-2xl space-x-5 uppercase justify-between">
+          <ul className="flex font-semibold text-2xl space-x-8 uppercase justify-between">
             {navItems.map((item) => (
-              <li key={item.label} className="hover:underline">
-                <Link to={item.path}>{item.label}</Link>
+              <li key={item.label} className="relative group">
+                <Link 
+                  to={item.path}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  {item.label}
+                </Link>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
               </li>
             ))}
             {authItems.map((item) => (
-              <li key={item.label} className="hover:underline">
+              <li key={item.label} className="relative group">
                 {item.onClick ? (
-                  <button onClick={item.onClick}>{item.label}</button>
+                  <button 
+                    onClick={item.onClick}
+                    className="hover:text-white transition-colors duration-200"
+                  >
+                    {item.label}
+                  </button>
                 ) : (
-                  <Link to={item.path}>{item.label}</Link>
+                  <Link 
+                    to={item.path}
+                    className="hover:text-white transition-colors duration-200"
+                  >
+                    {item.label}
+                  </Link>
                 )}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
               </li>
             ))}
           </ul>
         </div>
       </nav>
 
-      <nav className="relative w-full md:hidden items-center bg-black text-gray-200 font-babas-neue">
-        <div className="flex w-full justify-between px-8 flex-col absolute top-0 bg-black py-4">
-          <div className="flex justify-between items-center">
-            <Link to={"/"}>
-              <img className="w-14" src={assets.logo} alt="logo" />
-            </Link>
+      {/* Mobile Navigation */}
+      <nav className="relative w-full md:hidden bg-black text-gray-200 font-babas-neue sticky top-0 z-50 shadow-lg">
+        <div className="flex w-full justify-between px-6 py-4 items-center">
+          <Link to={"/"} className="z-20">
+            <img className="w-16" src={assets.logo || "/placeholder.svg"} alt="logo" />
+          </Link>
 
-            {!showNav ? (
-              <button
-                onClick={() => setShowNav(!showNav)}
-                className="space-y-1 cursor-pointer flex flex-col"
-              >
-                <span className="w-5 border " />
-                <span className="w-5 border " />
-                <span className="w-5 border " />
-              </button>
-            ) : (
-              <button
-                onClick={() => setShowNav(!showNav)}
-                className="flex flex-col cursor-pointer"
-              >
-                <span className="w-5 border rotate-45 "></span>
-                <span className="w-5 border -rotate-45 "></span>
-              </button>
-            )}
-          </div>
-          {showNav && (
-            <ul className="flex top-20 bg-black fixed w-full font-semibold text-xl flex-col space-y-3 uppercase justify-between left-0 px-8 py-3">
+          <button
+            onClick={() => setShowNav(!showNav)}
+            className="z-20 p-2 focus:outline-none"
+            aria-label={showNav ? "Close menu" : "Open menu"}
+          >
+            <div className="relative w-6 h-5">
+              <span 
+                className={`absolute h-0.5 w-6 bg-white transform transition-all duration-300 ${
+                  showNav ? 'rotate-45 top-2' : 'top-0'
+                }`}
+              />
+              <span 
+                className={`absolute h-0.5 w-6 bg-white top-2 transition-opacity duration-300 ${
+                  showNav ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+              <span 
+                className={`absolute h-0.5 w-6 bg-white transform transition-all duration-300 ${
+                  showNav ? '-rotate-45 top-2' : 'top-4'
+                }`}
+              />
+            </div>
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <div 
+          className={`fixed inset-0 bg-black transition-all duration-300 ease-in-out z-10 ${
+            showNav ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className={`flex flex-col items-center justify-center h-full transition-transform duration-300 ${
+            showNav ? 'translate-y-0' : '-translate-y-10'
+          }`}>
+            <ul className="flex flex-col items-center space-y-6 text-2xl uppercase">
               {navItems.map((item) => (
-                <li
-                  onClick={() => setShowNav(!showNav)}
-                  key={item.label}
-                  className="hover:underline"
-                >
-                  <Link to={item.path}>{item.label}</Link>
+                <li key={item.label} className="relative">
+                  <Link 
+                    to={item.path}
+                    className="hover:text-white transition-colors duration-200 py-2"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
               {authItems.map((item) => (
-                <li
-                  onClick={() => {
-                    setShowNav(!showNav);
-                    if (item.onClick) item.onClick();
-                  }}
-                  key={item.label}
-                  className="hover:underline"
-                >
+                <li key={item.label} className="relative">
                   {item.onClick ? (
-                    <button>{item.label}</button>
+                    <button 
+                      onClick={item.onClick}
+                      className="hover:text-white transition-colors duration-200 py-2"
+                    >
+                      {item.label}
+                    </button>
                   ) : (
-                    <Link to={item.path}>{item.label}</Link>
+                    <Link 
+                      to={item.path}
+                      className="hover:text-white transition-colors duration-200 py-2"
+                    >
+                      {item.label}
+                    </Link>
                   )}
                 </li>
               ))}
             </ul>
-          )}
+          </div>
         </div>
       </nav>
     </>

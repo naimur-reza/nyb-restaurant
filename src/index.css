@@ -41,6 +41,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
+  --color-button-primary: hsl(var(--button-primary));
+
   --font-babas-neue: "Bebas Neue", sans-serif;
   --font-open-sans: "Open Sans", sans-serif;
 }
@@ -68,7 +70,7 @@
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 0, 0%, 78%%;
+    --primary: 0, 0%, 50%;
     --primary-foreground: 210 40% 98%;
     --surface: 210 20% 98%;
     --secondary: 215 28% 17%;
@@ -83,6 +85,7 @@
     --input: 220 13% 91%;
     --ring: 246 83% 59%;
     --radius: 0.75rem;
+    --button-primary: 0, 0%, 85%;
   }
 
   .dark {
@@ -106,5 +109,6 @@
     --border: 217 33% 18%;
     --input: 217 33% 18%;
     --ring: 246 83% 59%;
+    --button-primary: 0 0% 78%;
   }
 }

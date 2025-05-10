@@ -3,7 +3,8 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setUser } from "../redux/features/auth/authSlice";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -15,6 +16,7 @@ const loginSchema = z.object({
 
 const Login = () => {
   const [login, { isLoading }] = useLoginUserMutation();
+  const navigate = useNavigate()
   
   const {
     register,
@@ -30,12 +32,17 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const result = await login(data);
+      const result = await login(data) 
+      console.log(result)
       if (result.error) {
         toast.error(result.error.data.message);
       }
       if (result.data) {
-        toast.success(result.data.message);
+        toast.success("Login successfully!");
+        // navigate("/")
+        // setUser({
+        //   user: result.data.data
+        // })
       }
     } catch {
       toast.error("An error occurred during login");

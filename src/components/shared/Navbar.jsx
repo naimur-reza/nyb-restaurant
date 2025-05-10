@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { assets } from "../../assets";
+import { useAppSelector } from "../../hooks/hooks";
+import { useCurrentUser } from "../../redux/features/auth/authSlice";
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -12,6 +14,10 @@ const Navbar = () => {
     { label: "Contact", path: "/contact" },
     { label: "Login", path: "/login" },
   ];
+
+
+  const user = useAppSelector(useCurrentUser)
+  console.log(user)
 
   return (
     <>

@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -19,7 +20,8 @@ const signupSchema = z.object({
 
 const Signup = () => {
   const [register, { isLoading }] = useRegisterUserMutation();
-  
+  const navigate = useNavigate();
+
   const {
     register: registerField,
     handleSubmit,
@@ -37,11 +39,13 @@ const Signup = () => {
   const onSubmit = async (data) => {
     try {
       const result = await register(data);
+      console.log(result);
       if (result.error) {
         toast.error(result.error.data.message);
       }
       if (result.data) {
         toast.success(result.data.message);
+        navigate("/login");
       }
     } catch {
       toast.error("An error occurred during registration");

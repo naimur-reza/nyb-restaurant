@@ -8,7 +8,7 @@ import { useAppSelector } from "../hooks/hooks"
 import {
   useDeleteOrderMutation,
   useGetAllOrdersQuery,
-  useUpdateOrderMutation,
+  useUpdateOrderStatusMutation,
 } from "../redux/api/ordersApi/ordersApi"
 import { useCurrentUser } from "../redux/features/auth/authSlice"
 
@@ -22,7 +22,7 @@ const Orders = () => {
   const [showApproveModal, setShowApproveModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const { data: orderData, refetch } = useGetAllOrdersQuery()
-  const [updateOrderStatus, { isLoading: isUpdating }] = useUpdateOrderMutation()
+  const [updateOrderStatus, { isLoading: isUpdating }] = useUpdateOrderStatusMutation()
   const [deleteOrder, { isLoading: isDeleting }] = useDeleteOrderMutation()
 
   // Transform API data to match our component's expected format
@@ -75,6 +75,7 @@ const Orders = () => {
     setSelectedOrder(order)
     setShowDeleteModal(true)
   }
+ 
 
   const confirmCancelOrder = async () => {
     try {

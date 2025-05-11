@@ -9,6 +9,13 @@ const ordersApi = baseApi.injectEndpoints({
       }),
       providesTags: ["orders"],
     }),
+    getOrderById: builder.query({
+      query: (id) => ({
+        method: "GET",
+        url: `/orders/${id}`,
+      }),
+      providesTags: (result, error, id) => [{ type: "orders", id }],
+    }),
     createOrder: builder.mutation({
       query: (data) => ({
         method: "POST",
@@ -17,13 +24,13 @@ const ordersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["orders"],
     }),
-    updateOrder: builder.mutation({
-      query: ({ id, data }) => ({
-        method: "PUT",
-        url: `/orders/${id}`,
-        body: data,
+    updateOrderStatus: builder.mutation({
+      query: ({ orderId, status }) => ({
+        method: "PATCH",
+        url: `/orders/${orderId}/status`,
+        body: { status },
       }),
-      invalidatesTags: ["orders"],
+      invalidatesTags: (result, error, { orderId }) => [{ type: "orders", id: orderId }, "orders"],
     }),
     deleteOrder: builder.mutation({
       query: (id) => ({
@@ -31,8 +38,22 @@ const ordersApi = baseApi.injectEndpoints({
         url: `/orders/${id}`,
       }),
       invalidatesTags: ["orders"],
-  }),
-  }),
+    }),
+    getUserOrders: builder.query({
+      query: (userId) => ({
+        method: "GET",
+        url: `/users/${userId}/orders`,
+      }),
+      providesTags: ["orders"],
+    }),
+  }), 
 });
 
-export const { useGetAllOrdersQuery, useCreateOrderMutation, useUpdateOrderMutation, useDeleteOrderMutation } = ordersApi;
+export const { 
+  useGetAllOrdersQuery, 
+  useGetOrderByIdQuery,
+  useCreateOrderMutation, 
+  useUpdateOrderStatusMutation, 
+  useDeleteOrderMutation, 
+  useGetUserOrdersQuery 
+} = ordersApi;

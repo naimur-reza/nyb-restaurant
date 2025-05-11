@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { CardElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js"
+import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
+import { useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { useCreateOrderMutation } from "../../redux/api/ordersApi/ordersApi"
-import { menu } from "../../constant/menu"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { menu } from "../../constant/menu"
+import { useCreateOrderMutation } from "../../redux/api/ordersApi/ordersApi"
 
 // Load Stripe
 const stripePromise = loadStripe(
@@ -87,9 +87,14 @@ const CheckoutForm = () => {
 
     try {
       const response = await createOrder({
+        itemName: item.title,
+        itemId: item.id,
         paymentMethodId: paymentMethod.id,
         amount: item.price,
         customerInfo: formData,
+        status: "pending",
+        itemImage: item.image,
+        date: new Date().toISOString(),
       }).unwrap()
 
       if (response) {

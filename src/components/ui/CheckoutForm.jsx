@@ -1,37 +1,33 @@
 "use client"
 
-import React, { useState, Fragment } from "react"
-import { Dialog, Transition } from "@headlessui/react"
+import { useState } from "react"
 import { CardElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
+import { useNavigate, useParams } from "react-router-dom"
+import { useCreateOrderMutation } from "../../redux/api/ordersApi/ordersApi"
 import { menu } from "../../constant/menu"
-import { useParams } from "react-router-dom"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 // Load Stripe
-const stripePromise = loadStripe("pk_test_51RNB7fP5ZJfcVMb3iVEtb5nPxVcspwwM3SbPoYcaoKDsXcaU8uBDV8UXTGjmqz1khNxv6EfERU363AZv9gKKRVdP00PTRcUxzI")
-
-// Mock API call
-const submitPayment = async (paymentData) => {
-  console.log("Mock Payment Submitted", paymentData)
-  return { orderId: "mock12345" }
-}
+const stripePromise = loadStripe(
+  "pk_test_51RNB7fP5ZJfcVMb3iVEtb5nPxVcspwwM3SbPoYcaoKDsXcaU8uBDV8UXTGjmqz1khNxv6EfERU363AZv9gKKRVdP00PTRcUxzI",
+)
 
 const CheckoutForm = () => {
   const stripe = useStripe()
   const elements = useElements()
-  const {orderId: userOrderId}= useParams()
+  const params = useParams()
+  const userOrderId = params.orderId
+  const navigate = useNavigate()
+  const [createOrder] = useCreateOrderMutation()
 
-const findItemById = (id) =>
-  menu.flatMap(category => category.items).find(item => item.id === Number(id));
+  const findItemById = (id) => menu.flatMap((category) => category.items).find((item) => item.id === Number(id))
 
-// Example usage:
-const item = findItemById(userOrderId);
-  
-  console.log(item, userOrderId)
+  // Example usage:
+  const item = findItemById(userOrderId)
 
   const [isLoading, setIsLoading] = useState(false)
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
-  const [orderId, setOrderId] = useState("")
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -65,12 +61,18 @@ const item = findItemById(userOrderId);
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!stripe || !elements) return
+    if (!stripe || !elements || !item) return
 
     if (!validateForm()) return
 
     setIsLoading(true)
     const cardElement = elements.getElement(CardElement)
+
+    if (!cardElement) {
+      setErrors({ card: "Card element not found" })
+      setIsLoading(false)
+      return
+    }
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -84,39 +86,47 @@ const item = findItemById(userOrderId);
     }
 
     try {
-      const response = await submitPayment({
+      const response = await createOrder({
         paymentMethodId: paymentMethod.id,
-        amount: item.price, 
+        amount: item.price,
         customerInfo: formData,
-      })
+      }).unwrap()
 
       if (response) {
-        setOrderId(response.orderId)
-        setIsSuccessModalOpen(true)
-        setFormData({
-          name: "",
-          email: "",
-          address: "",
-          city: "",
-          state: "",
-          zip: "",
-          country: "US",
+        console.log(response)
+        // Show success toast notification
+        toast.success("Payment successful! Thank you for your purchase.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
         })
-        cardElement.clear()
+
+        // Navigate to home page after a short delay
+        setTimeout(() => {
+          navigate("/")
+        }, 1500)
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
       setErrors({ submission: "Payment processing failed. Please try again." })
+      toast.error("Payment failed. Please try again.", {
+        theme: "dark",
+      })
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-900 py-12 text-gray-200">
+      <ToastContainer />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 bg-gray-800 text-white">
+        <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+          <div className="px-6 py-4 bg-gray-900 text-white border-b border-gray-700">
             <h2 className="text-xl font-semibold">Complete Your Purchase</h2>
           </div>
 
@@ -124,21 +134,21 @@ const item = findItemById(userOrderId);
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Customer Info */}
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-4">Customer Information</h3>
+                <h3 className="text-lg font-medium mb-4 text-gray-200">Customer Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {["name", "email"].map((field) => (
                     <div key={field}>
-                      <label className="block text-sm font-medium text-gray-700 capitalize">
-                        {field}
-                      </label>
+                      <label className="block text-sm font-medium text-gray-300 capitalize">{field}</label>
                       <input
                         type={field === "email" ? "email" : "text"}
                         name={field}
                         value={formData[field]}
                         onChange={handleInputChange}
-                        className={`mt-1 block w-full border ${errors[field] ? "border-red-500" : "border-gray-300"} rounded-md py-2 px-3`}
+                        className={`mt-1 block w-full border ${
+                          errors[field] ? "border-red-500" : "border-gray-600"
+                        } rounded-md py-2 px-3 bg-gray-700 text-white placeholder-gray-400`}
                       />
-                      {errors[field] && <p className="text-sm text-red-600">{errors[field]}</p>}
+                      {errors[field] && <p className="text-sm text-red-400">{errors[field]}</p>}
                     </div>
                   ))}
                 </div>
@@ -146,11 +156,11 @@ const item = findItemById(userOrderId);
 
               {/* Address Info */}
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-4">Shipping Address</h3>
+                <h3 className="text-lg font-medium mb-4 text-gray-200">Shipping Address</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {["address", "city", "state", "zip"].map((field) => (
                     <div key={field}>
-                      <label className="block text-sm font-medium text-gray-700 capitalize">
+                      <label className="block text-sm font-medium text-gray-300 capitalize">
                         {field.replace("_", " ")}
                       </label>
                       <input
@@ -158,9 +168,11 @@ const item = findItemById(userOrderId);
                         name={field}
                         value={formData[field]}
                         onChange={handleInputChange}
-                        className={`mt-1 block w-full border ${errors[field] ? "border-red-500" : "border-gray-300"} rounded-md py-2 px-3`}
+                        className={`mt-1 block w-full border ${
+                          errors[field] ? "border-red-500" : "border-gray-600"
+                        } rounded-md py-2 px-3 bg-gray-700 text-white placeholder-gray-400`}
                       />
-                      {errors[field] && <p className="text-sm text-red-600">{errors[field]}</p>}
+                      {errors[field] && <p className="text-sm text-red-400">{errors[field]}</p>}
                     </div>
                   ))}
                 </div>
@@ -168,35 +180,36 @@ const item = findItemById(userOrderId);
 
               {/* Card Info */}
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-4">Payment Information</h3>
-                <div className="border border-gray-300 rounded-md p-4">
+                <h3 className="text-lg font-medium mb-4 text-gray-200">Payment Information</h3>
+                <div className="border border-gray-600 rounded-md p-4 bg-gray-700">
                   <CardElement
                     options={{
                       style: {
                         base: {
                           fontSize: "16px",
-                          color: "#424770",
-                          "::placeholder": { color: "#aab7c4" },
+                          color: "#FFFFFF",
+                          "::placeholder": { color: "#9CA3AF" },
+                          iconColor: "#FFFFFF",
                         },
-                        invalid: { color: "#9e2146" },
+                        invalid: { color: "#F87171" },
                       },
                     }}
                   />
-                  {errors.card && <p className="mt-2 text-sm text-red-600">{errors.card}</p>}
+                  {errors.card && <p className="mt-2 text-sm text-red-400">{errors.card}</p>}
                 </div>
               </div>
 
               {/* Summary */}
               <div className="md:col-span-2">
-                <h3 className="text-lg font-medium mb-4">Order Summary</h3>
-                <div className="bg-gray-50 p-4 rounded-md">
+                <h3 className="text-lg font-medium mb-4 text-gray-200">Order Summary</h3>
+                <div className="bg-gray-700 p-4 rounded-md border border-gray-600">
                   <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">Item Name</span>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="text-gray-300">Item Name</span>
+                    <span className="font-medium text-white">{item?.title || "Item not found"}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Total</span>
-                    <span className="font-medium">{item.price} Taka</span>
+                    <span className="text-gray-300">Total</span>
+                    <span className="font-medium text-white">{item?.price || 0} Taka</span>
                   </div>
                 </div>
               </div>
@@ -204,7 +217,9 @@ const item = findItemById(userOrderId);
               {/* Submission Error */}
               {errors.submission && (
                 <div className="md:col-span-2">
-                  <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{errors.submission}</p>
+                  <p className="text-sm text-red-400 bg-red-900 bg-opacity-30 p-3 rounded border border-red-800">
+                    {errors.submission}
+                  </p>
                 </div>
               )}
 
@@ -213,7 +228,7 @@ const item = findItemById(userOrderId);
                 <button
                   type="submit"
                   disabled={isLoading || !stripe}
-                  className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 disabled:opacity-50"
+                  className="w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {isLoading ? (
                     <span className="flex items-center justify-center">
@@ -232,47 +247,6 @@ const item = findItemById(userOrderId);
           </form>
         </div>
       </div>
-
-      {/* Success Modal */}
-      <Transition appear show={isSuccessModalOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setIsSuccessModalOpen(false)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                  Payment Successful
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Thank you for your purchase! Your order ID is <strong>{orderId}</strong>.
-                  </p>
-                </div>
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
-                    onClick={() => setIsSuccessModalOpen(false)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </Dialog.Panel>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
     </div>
   )
 }

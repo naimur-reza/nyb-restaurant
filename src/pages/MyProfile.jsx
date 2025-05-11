@@ -1,5 +1,4 @@
-"use client"
-
+ 
 import { Eye, ShoppingBag, User } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useAppSelector } from "../hooks/hooks"
@@ -17,7 +16,7 @@ const MyProfile = () => {
     skip: !user,
   })
 
-  // Transform API data to match our component's expected format
+ 
   const orders = orderData
     ? orderData?.orders?.map((order) => ({
         id: order._id,
@@ -235,11 +234,11 @@ const MyProfile = () => {
               </div>
             </div>
 
-            <div className="mt-8">
+            {/* <div className="mt-8">
               <button className="bg-white text-black px-6 py-2 rounded hover:bg-gray-300 transition-colors">
                 Edit Profile
               </button>
-            </div>
+            </div> */}
           </div>
         )}
 

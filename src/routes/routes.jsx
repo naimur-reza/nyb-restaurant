@@ -15,6 +15,10 @@ import Orders from "../pages/Orders";
 import Settings from "../pages/Settings";
 import SignUp from "../pages/SignUp";
 import Users from "../pages/Users";
+import PrivateRoute from "./PrivateRoute";
+import StripeCheckoutForm from "../components/ui/CheckoutForm";
+ 
+
 
 const router = createBrowserRouter([
   {
@@ -60,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <MyProfile />,
+      },
+      {
+        path: "/checkout",
+        element: <PrivateRoute><StripeCheckoutForm/></PrivateRoute>,
       },
     ],
   },

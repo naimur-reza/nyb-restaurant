@@ -1,22 +1,10 @@
-import { useState } from "react";
+ 
+import { Link } from "react-router-dom";
 import CheckoutModal from "./ui/CheckoutModal";
 
 const MenuDetails = ({ item }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
  
-
-
-  const handleOrderNow = async () => {
-
  
-   openModal();
- 
-
-  
-  };
-
   return (
 <>
 
@@ -56,25 +44,21 @@ const MenuDetails = ({ item }) => {
               </span>
             )}
           </div>
+<Link to="/checkout">
 
           <button
-          onClick={handleOrderNow}
+      
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
           >
             <span className="text-xl">Order Now</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>
-    <CheckoutModal
-      isOpen={isOpen}
-      closeModal={closeModal}
-      classInfo={item}
-     
-    />
+ 
     </>
   );
 };

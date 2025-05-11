@@ -31,7 +31,7 @@ const CheckoutModal = ({ closeModal, isOpen }) => {
               leaveTo="opacity-0 scale-95">
               <Dialog.Panel className="w-full container transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
             
-         <StripeCheckoutForm/>
+     
                   
               
               </Dialog.Panel>

@@ -13,10 +13,11 @@ import MenuItem from "../pages/MenuItem";
 import MyProfile from "../pages/MyProfile";
 import Orders from "../pages/Orders";
 import Settings from "../pages/Settings";
-import SignUp from "../pages/SignUp";
+import Signup from "../pages/Signup";
 import Users from "../pages/Users";
 import PrivateRoute from "./PrivateRoute";
 import StripeCheckoutForm from "../components/ui/CheckoutForm";
+
  
 
 
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: <Signup />,
       },
       {
         path: "/info",
@@ -63,17 +64,18 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <MyProfile />,
+        element: <PrivateRoute><MyProfile /></PrivateRoute>,
       },
-      {
-        path: "/checkout",
-        element: <PrivateRoute><StripeCheckoutForm/></PrivateRoute>,
-      },
+
     ],
   },
+        {
+        path: "/checkout/:orderId",
+        element: <PrivateRoute><StripeCheckoutForm/></PrivateRoute>,
+      },  
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
     children: [
       {
         path: "",

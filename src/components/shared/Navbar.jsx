@@ -6,6 +6,7 @@ import { assets } from "../../assets";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { logout, useCurrentUser } from "../../redux/features/auth/authSlice";
  
+ 
 
 const Navbar = () => {
   const [showNav, setShowNav] = useState(false);

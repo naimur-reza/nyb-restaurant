@@ -1,6 +1,7 @@
 import { useAppSelector } from "../hooks/hooks"
-import { useCurrentUser } from "../redux/features/auth/authSlice"
+ 
 import { Navigate   } from "react-router-dom"
+import { useCurrentUser } from "../redux/features/auth/authSlice"
 
 const PrivateRoute = ({ children }) => {
  

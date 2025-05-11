@@ -4,6 +4,8 @@ import React, { useState, Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { CardElement, useStripe, useElements, Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
+import { menu } from "../../constant/menu"
+import { useParams } from "react-router-dom"
 
 // Load Stripe
 const stripePromise = loadStripe("pk_test_51RNB7fP5ZJfcVMb3iVEtb5nPxVcspwwM3SbPoYcaoKDsXcaU8uBDV8UXTGjmqz1khNxv6EfERU363AZv9gKKRVdP00PTRcUxzI")
@@ -17,6 +19,15 @@ const submitPayment = async (paymentData) => {
 const CheckoutForm = () => {
   const stripe = useStripe()
   const elements = useElements()
+  const {orderId: userOrderId}= useParams()
+
+const findItemById = (id) =>
+  menu.flatMap(category => category.items).find(item => item.id === Number(id));
+
+// Example usage:
+const item = findItemById(userOrderId);
+  
+  console.log(item, userOrderId)
 
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
@@ -75,7 +86,7 @@ const CheckoutForm = () => {
     try {
       const response = await submitPayment({
         paymentMethodId: paymentMethod.id,
-        amount: 2999, // $29.99 in cents
+        amount: item.price, 
         customerInfo: formData,
       })
 
@@ -180,12 +191,12 @@ const CheckoutForm = () => {
                 <h3 className="text-lg font-medium mb-4">Order Summary</h3>
                 <div className="bg-gray-50 p-4 rounded-md">
                   <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">Product</span>
-                    <span className="font-medium">Premium Subscription</span>
+                    <span className="text-gray-600">Item Name</span>
+                    <span className="font-medium">{item.title}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Total</span>
-                    <span className="font-medium">$29.99</span>
+                    <span className="font-medium">{item.price} Taka</span>
                   </div>
                 </div>
               </div>

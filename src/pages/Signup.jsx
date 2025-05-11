@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useRegisterUserMutation } from "../redux/api/authApi/authApi";
+ 
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),

@@ -1,7 +1,6 @@
  
 import { Link } from "react-router-dom";
-import CheckoutModal from "./ui/CheckoutModal";
-
+ 
 const MenuDetails = ({ item }) => {
  
  
@@ -44,7 +43,7 @@ const MenuDetails = ({ item }) => {
               </span>
             )}
           </div>
-<Link to="/checkout">
+<Link to={`/checkout/${item.id}`}>
 
           <button
       

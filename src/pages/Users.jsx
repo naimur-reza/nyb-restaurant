@@ -1,17 +1,18 @@
+import { Trash } from "lucide-react";
 import { useState } from "react";
 import { useAppSelector } from "../hooks/hooks";
+import { useDeleteUserMutation, useGetAllUsersQuery } from "../redux/api/userApi/userApi";
 import { useCurrentUser } from "../redux/features/auth/authSlice";
-import { useGetAllUsersQuery } from "../redux/api/userApi/userApi";
  
- 
- 
-
 const Users = () => {
   const user = useAppSelector(useCurrentUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
   const { data, isLoading, isError } = useGetAllUsersQuery();
+  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
 
   if (!user) {
     return null;
@@ -35,17 +36,18 @@ const Users = () => {
     return matchesSearch && matchesRole && matchesStatus;
   });
 
+  console.log(userToDelete)
+
  
-  console.log(filteredUsers);
+
+ 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold text-primary font-open-sans">
           Users
         </h2>
-        <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 font-open-sans">
-          Add User
-        </button>
+   
       </div>
 
       <div className="bg-surface rounded-xl shadow-lg p-6">
@@ -128,11 +130,16 @@ const Users = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">
-                    <button className="text-primary hover:text-primary/80 mr-3">
-                      Edit
-                    </button>
-                    <button className="text-error hover:text-error/80">
-                      Delete
+                    <button
+                      className="text-error hover:text-red-600/80 transition-all flex items-center justify-center ml-4"
+                      disabled={isDeleting}
+                      onClick={() => {
+                        setUserToDelete(user);
+                        setModalOpen(true);
+                      }}
+                    >
+                      <Trash className="w-5 h-5" />
+                      <span className="sr-only">Delete</span>
                     </button>
                   </td>
                 </tr>
@@ -141,6 +148,38 @@ const Users = () => {
           </table>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-full max-w-sm">
+            <h3 className="text-lg font-semibold mb-4 text-primary">Confirm Delete</h3>
+            <p className="mb-6 text-primary">
+              Are you sure you want to delete <span className="font-bold">{userToDelete?.name}</span>?
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+                onClick={() => setModalOpen(false)}
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+              <button
+                className={`px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600/80  disabled:cursor-not-allowed`}
+                onClick={async () => {
+                  await deleteUser(userToDelete._id);
+                  setModalOpen(false);
+                  setUserToDelete(null);
+                }}
+                disabled={isDeleting  || user._id === userToDelete._id}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

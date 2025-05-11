@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import OrderDetails from "../components/shared/OrderDetails";
+import StripeCheckoutForm from "../components/ui/CheckoutForm";
 import DashboardLayout from "../layout/DashboardLayout";
 import MainLayout from "../layout/MainLayout";
 import About from "../pages/About";
@@ -16,7 +17,6 @@ import Settings from "../pages/Settings";
 import Signup from "../pages/Signup";
 import Users from "../pages/Users";
 import PrivateRoute from "./PrivateRoute";
-import StripeCheckoutForm from "../components/ui/CheckoutForm";
 
  
 

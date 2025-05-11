@@ -321,9 +321,7 @@ const Orders = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold text-primary font-open-sans">Orders</h2>
-        <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 font-open-sans">
-          New Order
-        </button>
+ 
       </div>
 
       <div className="bg-surface rounded-xl shadow-lg p-6">

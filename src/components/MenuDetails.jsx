@@ -23,7 +23,7 @@ const MenuDetails = ({ item }) => {
               <h1 className="text-3xl font-bold text-white mb-2">{item.title}</h1>
               <p className="text-gray-400 text-lg">{item.description}</p>
             </div>
-            <div className="text-2xl font-bold text-white">${item.price}</div>
+            <div className="text-2xl font-bold text-white">{item.price} Taka</div>
           </div>
 
           {/* Dietary Information */}

@@ -2,8 +2,9 @@
 import { Eye, ShoppingBag, User } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useAppSelector } from "../hooks/hooks"
-import { useGetUserOrdersQuery } from "../redux/api/ordersApi/ordersApi"
+import { useGetUserOrdersQuery, useUpdateOrderStatusMutation } from "../redux/api/ordersApi/ordersApi"
 import { useCurrentUser } from "../redux/features/auth/authSlice"
+import { toast } from "react-toastify"
 
 const MyProfile = () => {
   const user = useAppSelector(useCurrentUser)
@@ -12,9 +13,11 @@ const MyProfile = () => {
     data: orderData,
     isLoading,
     refetch,
-  } = useGetUserOrdersQuery(user?.id, {
+  } = useGetUserOrdersQuery(user?._id, {
     skip: !user,
   })
+
+  const [updateOrderStatus] = useUpdateOrderStatusMutation()
 
  
   const orders = orderData
@@ -56,12 +59,21 @@ const MyProfile = () => {
     }
   }
 
+  console.log(orderData)
+
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [showOrderModal, setShowOrderModal] = useState(false)
 
   const handleViewOrderDetails = (order) => {
     setSelectedOrder(order)
     setShowOrderModal(true)
+  }
+
+  const handleStatusUpdate = async () => {
+    await updateOrderStatus({ orderId: selectedOrder.id, status: "cancelled" })
+    toast.success("Order cancelled successfully")
+    setShowOrderModal(false)
+    refetch()
   }
 
   const OrderDetailsModal = () => {
@@ -139,13 +151,13 @@ const MyProfile = () => {
                       <p className="text-gray-400">Quantity: 1</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-medium">${originalData.amount.toFixed(2)}</p>
+                      <p className="text-lg font-medium">{originalData.amount.toFixed(2)} Taka</p>
                     </div>
                   </div>
                 </div>
                 <div className="border-t border-gray-700 p-4 flex justify-between">
                   <p className="text-lg font-bold">Total</p>
-                  <p className="text-lg font-bold">${originalData.amount.toFixed(2)}</p>
+                  <p className="text-lg font-bold">{originalData.amount.toFixed(2)} Taka</p>
                 </div>
               </div>
             </div>
@@ -153,7 +165,7 @@ const MyProfile = () => {
             {selectedOrder.status === "pending" && (
               <div className="border-t border-gray-700 pt-4">
                 <div className="flex justify-end">
-                  <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors">
+                  <button onClick={() => handleStatusUpdate()} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors">
                     Cancel Order
                   </button>
                 </div>
@@ -287,7 +299,7 @@ const MyProfile = () => {
                           <p className="text-gray-400">Quantity: {order.items[0].quantity}</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-medium">${order.total.toFixed(2)}</p>
+                          <p className="font-medium">{order.total.toFixed(2)} Taka</p>
                         </div>
                       </div>
                     </div>

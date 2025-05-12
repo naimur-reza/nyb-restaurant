@@ -8,6 +8,8 @@ import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { menu } from "../../constant/menu"
 import { useCreateOrderMutation } from "../../redux/api/ordersApi/ordersApi"
+import { useAppSelector } from "../../hooks/hooks"
+import { useCurrentUser } from "../../redux/features/auth/authSlice"
 
 // Load Stripe
 const stripePromise = loadStripe(
@@ -19,6 +21,7 @@ const CheckoutForm = () => {
   const elements = useElements()
   const params = useParams()
   const userOrderId = params.orderId
+  const user = useAppSelector(useCurrentUser)
   const navigate = useNavigate()
   const [createOrder] = useCreateOrderMutation()
 
@@ -87,6 +90,7 @@ const CheckoutForm = () => {
 
     try {
       const response = await createOrder({
+        userId: user?._id,
         itemName: item.title,
         itemId: item.id,
         paymentMethodId: paymentMethod.id,

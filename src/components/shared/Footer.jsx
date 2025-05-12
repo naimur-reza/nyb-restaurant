@@ -56,9 +56,9 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-2 text-gray-400">
               <li>123 Restaurant Street</li>
-              <li>New York, NY 10001</li>
-              <li>Phone: (555) 123-4567</li>
-              <li>Email: info@alwaysjoy.com</li>
+              <li>Dhaka, Bangladesh</li>
+              <li>Phone: +8801717171717</li>
+              <li>Email: info@nyb.com</li>
             </ul>
           </div>
 
@@ -92,7 +92,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray-400">
-              © {new Date().getFullYear()} Always Joy. All rights reserved.
+              © {new Date().getFullYear()} NYB. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">Terms of Use</a>

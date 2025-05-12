@@ -212,13 +212,13 @@ const Orders = () => {
                       <p className="text-secondary text-sm">Quantity: 1</p>
                     </div>
                   </div>
-                  <p className="text-primary">${originalData.amount.toFixed(2)}</p>
+                  <p className="text-primary">{originalData.amount.toFixed(2)} Taka</p>
                 </div>
               </div>
               <div className="border-t border-border mt-4 pt-4">
                 <div className="flex justify-between items-center">
                   <p className="text-lg font-semibold text-primary">Total</p>
-                  <p className="text-lg font-semibold text-primary">${originalData.amount.toFixed(2)}</p>
+                  <p className="text-lg font-semibold text-primary">{originalData.amount.toFixed(2)} Taka</p>
                 </div>
               </div>
             </div>
@@ -380,7 +380,7 @@ const Orders = () => {
                   <tr key={idx} className="hover:bg-hover transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">#{idx + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">{order.customer}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">${order.total.toFixed(2)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-primary">{order.total.toFixed(2)} TK</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(order.status)}`}

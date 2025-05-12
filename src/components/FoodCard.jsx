@@ -17,7 +17,7 @@ const FoodCard = ({ item }) => {
         </Link>
         <p className="text-gray-400 text-sm mt-2">{item.description}</p>
         <div className="mt-3 text-lg font-bold text-white">
-          ${item.price}
+          {item.price} Taka
         </div>
 
         {item.vegetarian !== undefined && (

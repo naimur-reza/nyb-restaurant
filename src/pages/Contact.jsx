@@ -35,13 +35,13 @@ const Contact = () => {
                   We’d love to hear from you! Reach out with any questions or reservations.
                 </p>
                 <p className="text-gray-300 mb-2">
-                  <span className="font-medium">Address:</span> 123 Flavor Street, New York, NY 10001
+                  <span className="font-medium">Address:</span> 123 Flavor Street, Dhaka, Bangladesh
                 </p>
                 <p className="text-gray-300 mb-2">
-                  <span className="font-medium">Phone:</span> (555) 123-4567
+                    <span className="font-medium">Phone:</span> +8801717171717
                 </p>
                 <p className="text-gray-300">
-                  <span className="font-medium">Email:</span> info@nybrestaurant.com
+                  <span className="font-medium">Email:</span> info@nyb.com
                 </p>
               </div>
             </div>

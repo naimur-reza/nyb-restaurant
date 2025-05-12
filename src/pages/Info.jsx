@@ -16,22 +16,22 @@ const Info = () => {
             <h3 className="text-xl font-semibold text-gray-200 mb-2">
               Contact Us
             </h3>
-            <p className="text-gray-400">Phone: (555) 123-4567</p>
-            <p className="text-gray-400">Email: info@nybrestaurant.com</p>
+            <p className="text-gray-400">Phone: +8801717171717</p>
+            <p className="text-gray-400">Email: info@nyb.com</p>
           </div>
           <div className="border border-white/15 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold text-gray-200 mb-2">
               Operating Hours
             </h3>
-            <p className="text-gray-400">Mon-Fri: 11:00 AM - 10:00 PM</p>
-            <p className="text-gray-400">Sat-Sun: 10:00 AM - 11:00 PM</p>
+            <p className="text-gray-400">Mon-Fri: 8AM - 12PM</p>
+            <p className="text-gray-400">Sat-Sun: 8AM - 12PM</p>
           </div>
           <div className="border border-white/15 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold text-gray-200 mb-2">
               Location
             </h3>
             <p className="text-gray-400">
-              123 Flavor Street, New York, NY 10001
+              123 Flavor Street, Dhaka, Bangladesh
             </p>
             <p className="text-gray-400">Map: Coming Soon</p>
           </div>

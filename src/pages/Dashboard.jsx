@@ -155,7 +155,7 @@ const Dashboard = () => {
           <StatCard
             title="Total Revenue"
             value={totalRevenue.toFixed(2)}
-            prefix="$"
+            prefix="TK"
             icon={(props) => (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
